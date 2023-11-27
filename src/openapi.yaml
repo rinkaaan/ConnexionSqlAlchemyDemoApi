@@ -1,0 +1,160 @@
+openapi: 3.0.0
+servers:
+  - url: http://localhost:8080
+    description: Pet Shop API
+info:
+  title: Pets
+  version: '0.1'
+paths:
+  /pets:
+    get:
+      tags: [ Pet ]
+      x-openapi-router-controller: resources.pet.api
+      operationId: get_items
+      summary: Get all pets
+      parameters:
+        - name: animal_type
+          in: query
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9]*$'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 100
+        - name: after_datetime
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Return pet
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+    put:
+      tags: [ Pet ]
+      x-openapi-router-controller: resources.pet.api
+      operationId: put
+      summary: Create a pet
+      responses:
+        '201':
+          description: Pet created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '409':
+          description: Pet already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutPetProps'
+  '/pets/{pet_id}':
+    get:
+      tags: [ Pet ]
+      x-openapi-router-controller: resources.pet.api
+      operationId: get
+      summary: Get a single pet
+      parameters:
+        - $ref: '#/components/parameters/pet_id'
+      responses:
+        '200':
+          description: Return pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '404':
+          description: Pet does not exist
+    patch:
+      tags: [ Pet ]
+      x-openapi-router-controller: resources.pet.api
+      operationId: patch
+      summary: Update a pet
+      parameters:
+        - $ref: '#/components/parameters/pet_id'
+      responses:
+        '200':
+          description: Pet updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetProps'
+    delete:
+      tags: [ Pet ]
+      x-openapi-router-controller: resources.pet.api
+      operationId: delete
+      summary: Delete a pet
+      parameters:
+        - $ref: '#/components/parameters/pet_id'
+      responses:
+        '204':
+          description: Pet was deleted
+        '404':
+          description: Pet does not exist
+components:
+  parameters:
+    pet_id:
+      name: pet_id
+      description: Pet's Unique identifier
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+  schemas:
+    Pet:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetReadonlyProps'
+        - $ref: '#/components/schemas/PetProps'
+    PutPetProps:
+      type: object
+      required: [ name, animal_type, country ]
+      allOf:
+        - $ref: '#/components/schemas/PetProps'
+    PetReadonlyProps:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier
+          example: 123
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          description: Creation time
+          example: '2015-07-07T15:49:51.230+02:00'
+          readOnly: true
+    PetProps:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Pet's name
+          example: Susie
+          minLength: 1
+          maxLength: 100
+        animal_type:
+          type: string
+          description: Kind of animal
+          example: cat
+          minLength: 1
+        country:
+          type: string
+          description: Country of origin
+          example: Japan
+          minLength: 1
+          maxLength: 100

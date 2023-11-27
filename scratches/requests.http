@@ -1,0 +1,32 @@
+###
+GET http://localhost:8080/pets/642f33f8-0bca-439b-838f-57396e2e408a
+
+###
+PUT http://localhost:8080/pets
+Content-Type: application/json
+
+{
+  "animal_type": "Cat",
+  "name": "Person A",
+  "country": "Country A"
+}
+
+###
+GET http://localhost:8080/pets?limit=1&animal_type=Cat
+
+###
+GET http://localhost:8080/pets?after_datetime=2023-11-21T22:47:03.261042Z
+
+###
+GET http://localhost:8080/pets
+
+###
+DELETE http://localhost:8080/pets/642f33f8-0bca-439b-838f-57396e2e408a
+
+###
+PATCH http://localhost:8080/pets/642f33f8-0bca-439b-838f-57396e2e408a
+Content-Type: application/json
+
+{
+  "country": "USA"
+}
