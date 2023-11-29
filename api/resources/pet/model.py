@@ -3,7 +3,7 @@ import uuid
 from nguylinc_python_utils.sqlalchemy import BaseExtended
 from sqlalchemy import Column, String, DateTime, UUID, ColumnElement
 
-from src.init_models import Base
+from api.init_models import Base
 
 
 class Pet(Base, BaseExtended):

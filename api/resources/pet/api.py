@@ -5,8 +5,8 @@ from nguylinc_python_utils.sqlalchemy import deserialize_body, sanitize_body
 from sqlalchemy import desc
 from sqlalchemy.exc import IntegrityError
 
-from src.app import session
-from src.resources.pet.model import Pet
+from api.app import session
+from api.resources.pet.model import Pet
 
 
 def get_items(limit, animal_type=None, after_datetime=datetime.min):

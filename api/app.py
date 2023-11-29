@@ -2,7 +2,7 @@ from pathlib import Path
 
 from nguylinc_python_utils.connexion import setup_app
 
-from src.init_models import Base
+from api.init_models import Base
 
 schema_path = Path(__file__).parent / "openapi.yaml"
 app, session = setup_app(Base, schema_path)
