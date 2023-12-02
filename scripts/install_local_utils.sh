@@ -1,7 +1,7 @@
-WORKPLACE="$HOME/workplace/ConnexionSqlAlchemyDemo"
+WORKSPACE="$HOME/workplace/ConnexionSqlAlchemyDemo"
 
 (
-  cd "$WORKPLACE/PythonUtils"
+  cd "$WORKSPACE/PythonUtils"
   pip install .
   rm -rf build
 )
